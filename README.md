@@ -81,7 +81,7 @@ python -m ensurepip --upgrade
 Clone the repository and enter it:
 
 ```powershell
-git clone https://github.com/TFQ0/ASCII-Art.git
+git clone https://github.com/RipperdocNiladri/ASCII-Art.git
 cd ASCII-Art
 ```
 
