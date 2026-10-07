@@ -53,7 +53,6 @@ On Windows, install an FFmpeg distribution containing all three programs and ens
 Install the published package from PyPI:
 
 ```powershell
-python -m pip install --upgrade pip
 python -m pip install terminal-ascii-art
 ```
 
