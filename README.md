@@ -81,7 +81,7 @@ python -m ensurepip --upgrade
 Clone the repository and enter it:
 
 ```powershell
-git clone https://github.com/RipperdocNiladri/ASCII-Art.git
+git clone https://github.com/TFQ0/ASCII-Art.git
 cd ASCII-Art
 ```
 
@@ -284,36 +284,6 @@ Install the project and run the test suite from the repository root:
 python -m pip install -e .
 python -m unittest discover -s tests -v
 ```
-
-## Publishing a release
-
-Releases are published from `TFQ0/ASCII-Art` by `.github/workflows/publish.yml`. The workflow runs the tests on the supported Python versions, builds and validates the wheel and source distribution, and publishes them to PyPI through Trusted Publishing.
-
-Before the first release, configure a PyPI Trusted Publisher for the `terminal-ascii-art` project with these exact values:
-
-- Owner: `RipperdocNiladri`
-- Repository: `ASCII-Art`
-- Workflow: `publish.yml`
-- Environment: `pypi`
-
-The GitHub `pypi` environment permits tags matching `v*`. If the account that creates the release is its only required reviewer, **Prevent self-review** must be disabled or another reviewer must be added.
-
-For every release:
-
-1. Update `__version__` in `terminal_ascii_art/__init__.py`. Package metadata reads the version from this single source.
-2. Run the tests.
-3. Build and validate the distributions locally:
-
-   ```powershell
-   python -m pip install --upgrade build twine
-   python -m build
-   python -m twine check dist/*
-   ```
-
-4. Commit and push the release changes.
-5. Create a GitHub release whose tag exactly matches the package version with a `v` prefix, such as `v0.1.2`.
-
-Publishing a GitHub release triggers the workflow. PyPI does not allow an existing release file or version to be overwritten, so each published version must be unique.
 
 ## Performance and limitations
 
