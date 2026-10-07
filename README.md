@@ -16,19 +16,6 @@ source pixels or 3D geometry
             terminal
 ```
 
-## Features
-
-- One `ascii-art` command for every renderer.
-- Still-image conversion with automatic aspect-ratio correction.
-- Monochrome and ANSI true-color video playback.
-- Optional synchronized audio through FFplay.
-- Frame dropping to limit long-term audio/video drift.
-- Configurable FPS, width, character ramp, color smoothing, and inversion.
-- Automatic fitting to the current terminal.
-- Five procedural demos: cube, sphere, donut, planet, and black hole.
-- Safe terminal cleanup after completion, errors, or `Ctrl+C`.
-- Compatibility entry points for the original scripts.
-
 ## Requirements
 
 - Python 3.10 or newer.
@@ -283,10 +270,6 @@ Install the project and run the test suite from the repository root:
 python -m pip install -e .
 python -m unittest discover -s tests -v
 ```
-
-## Performance and limitations
-
-Terminal output is much slower than GPU rendering. Performance depends on the CPU, terminal emulator, selected width, FPS, character ramp, and whether ANSI color is enabled.
 
 Useful starting points:
 
