@@ -40,7 +40,7 @@ FFmpeg decodes video. FFplay supplies audio and is optional with `--no-audio`. F
 Download and install the latest published version from [PyPI](https://pypi.org/project/terminal-ascii-art/):
 
 ```powershell
-python -m pip install --upgrade terminal-ascii-art
+pip install terminal-ascii-art
 ```
 
 **Option B: Download and install the source**
