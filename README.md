@@ -45,66 +45,9 @@ python -m pip install --upgrade terminal-ascii-art
 
 **Option B: Download and install the source**
 
-Use this method to run or edit the code in the repository. This README describes that code; the published package may differ from the current checkout.
-
-With Git:
-
-```powershell
-git clone https://github.com/TFQ0/ASCII-Art.git
-cd ASCII-Art
-```
-
-Without Git: [download the source ZIP](https://github.com/TFQ0/ASCII-Art/archive/refs/heads/main.zip), extract it, and open PowerShell in the extracted folder containing `pyproject.toml`.
-
-Then create a virtual environment and install the project from that folder:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -e .
-```
-
-On macOS or Linux, use `python3 -m venv .venv` and `source .venv/bin/activate` for the first two commands. The editable installation uses your local source files, so code changes take effect without reinstalling. Rerun `python -m pip install -e .` when package metadata or command entry points change.
-
-### 3. Check the installation
-
-```powershell
-ascii-art --version
-ascii-art list
-```
-
-Try a demo that needs no input file or FFmpeg:
-
-```powershell
-ascii-art demo cube
-```
-
-Press `Ctrl+C` to stop a demo or video. If the `ascii-art` command is unavailable, the same commands work with `python -m terminal_ascii_art`, for example:
-
-```powershell
-python -m terminal_ascii_art list
-```
-
 ## Usage examples
 
-The examples below use **PowerShell**. Run one example at a time, and adjust the paths, sizes, or options to suit your files. Example images and videos are **not bundled** with the tool.
-
-### Set your file paths
-
-Replace these two paths with files on your computer. Set them once in your current PowerShell session:
-
-```powershell
-$videoPath = "C:\path\to\video.mp4"
-$imagePath = "C:\path\to\photo.png"
-```
-
-Files can be anywhere on your computer. For a file inside a source checkout, you can instead use a path relative to the current folder:
-
-```powershell
-$videoPath = ".\assets\videos\clip.mp4"
-```
-
-Use that relative path only after placing your own `clip.mp4` there. In PowerShell, `.\assets\...` starts from the current folder; `/assets/...` starts from the drive root. Keep literal paths with spaces inside quotes.
+It is recommended to use **PowerShell** in windows . Run one example at a time, and adjust the paths, sizes, or options to suit your files. Example images and videos are **not bundled** with the tool.
 
 ### Play a video
 
@@ -117,7 +60,12 @@ ascii-art video $videoPath
 Use color, a detailed character ramp, 30 FPS, and a three-second startup delay:
 
 ```powershell
-ascii-art video $videoPath --color --charset detailed --fps 30 --width 250 --start-delay 3
+ascii-art video video.mp4 --color --charset detailed --fps 30 --width 250 --start-delay 3
+```
+or
+
+```powershell
+ascii-art video video.mp4 --color --charset letters --fps 30 --width 250 --start-delay 3
 ```
 
 Change `250` to the maximum number of columns you want. The output still shrinks to fit the terminal. Remove `--color` for monochrome or `--start-delay 3` to start immediately.
@@ -125,13 +73,13 @@ Change `250` to the maximum number of columns you want. The output still shrinks
 Reduce shimmer in still areas while preserving moving edges:
 
 ```powershell
-ascii-art video $videoPath --color --charset detailed --width 160 --smoothing 0.65
+ascii-art video video.mp4 --color --charset detailed --width 160 --smoothing 0.65
 ```
 
 Use a smaller, silent render for a slower terminal:
 
 ```powershell
-ascii-art video $videoPath --width 80 --fps 20 --no-audio
+ascii-art video video.mp4 --width 80 --fps 20 --no-audio
 ```
 
 Adjust audio timing independently of the startup delay:
@@ -222,52 +170,6 @@ All commands and options supported by `ascii-art` are listed here. Put options a
 - **Motion:** match the source frame rate when practical; use `--fps 30` for a 30 FPS clip. Lower FPS or width if your terminal struggles. Smoothing reduces shimmer, not frame-rate judder.
 - **Color overhead:** monochrome is cheaper to display. In color mode, a larger `--quant` value reduces color changes at the cost of color precision.
 
-Still images use Lanczos resizing, mild edge sharpening, and nearest-shade mapping. Transparent areas use a dark background, or a light background when an inverted ramp ends in a blank character.
-
-Videos use Lanczos downscaling, full-range output, and nearest-shade mapping. Their clock starts after the first frame is decoded; frames are prepared before their presentation deadline. Bounded frame skipping helps catch up when rendering falls behind. Optional smoothing avoids long trails at moving edges and scene cuts.
-
-The sphere and planet account for terminal cell proportions even with explicit dimensions. The planet's terrain rotates under fixed sunlight. All demos use nearest-shade mapping.
-
-## Troubleshooting
-
-**`ascii-art` is not recognized**
-
-Activate the environment where you installed the tool, or replace `ascii-art` with `python -m terminal_ascii_art`. If PowerShell blocks virtual-environment activation, you can use that environment's Python directly:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -e .
-.\.venv\Scripts\python.exe -m terminal_ascii_art list
-```
-
-Run these two commands from the downloaded source folder.
-
-**`ModuleNotFoundError: No module named 'ascii_art'` after updating the source**
-
-An older editable installation may still have a launcher pointing at the old package name. Activate the intended virtual environment and reinstall from the repository root:
-
-```powershell
-python -m pip install -e .
-ascii-art --version
-```
-
-**A documented option is not recognized**
-
-Check `ascii-art video --help` and `ascii-art --version`. Make sure you are using the intended environment. Upgrade a PyPI installation with `python -m pip install --upgrade terminal-ascii-art`, or use the source installation for changes not yet published.
-
-**FFmpeg or FFplay is missing**
-
-Install the external video tools and put their executable directory on `PATH`, then reopen the terminal. `--no-audio` removes the need for FFplay; FFmpeg is still required for video.
-
-**The input file cannot be found**
-
-Check that the file exists and that relative paths start from your current folder. Use a quoted absolute path if unsure. Example paths in this README must be replaced with your own files.
-
-**pip is missing**
-
-```powershell
-python -m ensurepip --upgrade
-```
-
 ## Development
 
 The terminal acts as a character-based framebuffer: brightness or lighting selects a character, with optional ANSI foreground color.
@@ -278,20 +180,6 @@ video → FFmpeg → scaled frames → NumPy → ASCII / ANSI terminal output
       └ FFplay → audio
 demo  → geometry + projection + lighting → ASCII terminal output
 ```
-
-Run tests from the repository root after installing the source:
-
-```powershell
-python -m unittest discover -s tests -v
-```
-
-To add a procedural demo:
-
-1. Create a module under `terminal_ascii_art/renderers/`.
-2. Implement `render_frame(frame_index, width, height, ramp) -> str`.
-3. Register it in `terminal_ascii_art/renderers/__init__.py`.
-4. Add a renderer-contract or algorithm-specific test.
-5. Add the demo to the command table above.
 
 ## License
 
